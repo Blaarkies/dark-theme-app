@@ -1,0 +1,16 @@
+<mat-card class="main">
+  <h1>Hello Angular Material World</h1>
+
+  <div>
+    <span>Welcome to my first Angular Material website.
+      We have detected that you prefer </span>
+    <span>{{preferredTheme$ | async}}</span>
+  </div>
+
+  <button mat-flat-button
+          color="primary"
+          (click)="toggleTheme()">
+    Switch
+  </button>
+
+</mat-card>

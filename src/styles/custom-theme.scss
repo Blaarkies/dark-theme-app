@@ -1,0 +1,117 @@
+@use '@angular/material' as mat;
+@use '@angular/material/theming' as theme;
+
+// Custom palette generated with http://mcg.mbitson.com/
+$text-dark: #111;
+$text-light: #fff;
+$shock-pink-palette: (
+        50: #f3e4f5,
+        100: #e1bbe6,
+        200: #ce8ed5,
+        300: #ba60c4,
+        400: #ab3eb8,
+        500: #9c1cab,
+        600: #9419a4,
+        700: #8a149a,
+        800: #801191,
+        900: #6e0980,
+        A100: #f1b0ff,
+        A200: #e97dff,
+        A400: #e04aff,
+        A700: #dc30ff,
+        contrast: (
+                50: $text-dark,
+                100: $text-dark,
+                200: $text-dark,
+                300: $text-dark,
+                400: $text-light,
+                500: $text-light,
+                600: $text-light,
+                700: $text-light,
+                800: $text-light,
+                900: $text-light,
+                A100: $text-dark,
+                A200: $text-dark,
+                A400: $text-dark,
+                A700: $text-light,
+        ),
+);
+
+// This is where material starts
+@include mat.core();
+
+// Setup our theme composition
+$primary-light: mat.define-palette($shock-pink-palette); // use our custom palette
+$accent-light: mat.define-palette(mat.$amber-palette); // use material's predefined palette
+$warn-light: mat.define-palette(mat.$deep-orange-palette);
+
+// Make a light-theme. "define-light-theme" will make the backgrounds bright
+$light-theme: mat.define-light-theme((
+        color: (
+                primary: $primary-light,
+                accent: $accent-light,
+                warn: $warn-light,
+        ),
+));
+// This line generates the final CSS styles needed for the theme, all those lines get placed here after compilation
+@include mat.all-component-themes($light-theme);
+
+// Create another theme, this time for dark-mode
+$primary-dark: mat.define-palette(mat.$cyan-palette);
+// Pick the A400 value as the default/middle-ground color here (A400 is pretty bright)
+$accent-dark: mat.define-palette(mat.$amber-palette, A400);
+$warn-dark: mat.define-palette(mat.$red-palette, A200);
+
+// "define-dark-theme" will generate a theme with a dark background
+$dark-theme: mat.define-dark-theme((
+        color: (
+                primary: $primary-dark,
+                accent: $accent-dark,
+                warn: $warn-dark,
+        ),
+));
+
+// Also include this theme, but INSIDE the {.dark-theme} class. Now it only has effect under a {.dark-theme} classes body
+.dark-theme {
+  // Note: "mat.all-component-colors" (instead of all-component-themes)
+  // This avoid duplicating the themes, but ONLY replaces the colors for dark-mode
+  @include mat.all-component-colors($dark-theme);
+}
+
+:root {
+  --color-background-card: #fff;
+  --color-background-description: #fff;
+  --color-background-article: #f3f3f3;
+
+  --color-text: #111;
+  --color-text-snackbar: #ffffffb3;
+  --color-text-primary: #{map-get($primary-light, 500)};
+  --color-text-accent: #{map-get($accent-light, 500)};
+  --color-text-warn: #{map-get($warn-light, 500)};
+  --color-text-hyperlink: #263dc1;
+  --color-text-hyperlink-visited: #5226c1;
+  --color-text-muted: #999;
+
+  --color-border-simple: #0006;
+
+  --color-icon-muted: #666;
+  --color-icon-white: #fffc;
+
+  .dark-theme {
+    --color-background-card: #424242;
+    --color-background-description: #333;
+    --color-background-article: #333;
+
+    --color-text: #fff;
+    --color-text-snackbar: #ffffffb3;
+    --color-text-primary: #{map-get($primary-dark, 500)};
+    --color-text-accent: #{map-get($accent-dark, 500)};
+    --color-text-warn: #{map-get($warn-dark, 500)};
+    --color-text-hyperlink: #67b3ff;
+    --color-text-hyperlink-visited: #ddbfff;
+
+    --color-border-simple: #fff6;
+
+    --color-icon-muted: #999;
+  }
+}
